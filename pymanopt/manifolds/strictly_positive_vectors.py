@@ -63,4 +63,5 @@ class StrictlyPositiveVectors(EuclideanEmbeddedSubmanifold):
     def log(self, x, y):
         return x*np.log((1./x)*y)
 
-# def transp(self, x1, x2, d):
+    def transp(self, x1, x2, d):
+        return self.proj(x2, d)
