@@ -58,7 +58,8 @@ class StrictlyPositiveVectors(EuclideanEmbeddedSubmanifold):
     def exp(self, x, u):
         return x*np.exp((1./x)*u)
 
-    retr = exp
+    def retr(self, x, u):
+        return x + u + (1/2)*(x**-1)*(u**2)
 
     def log(self, x, y):
         return x*np.log((1./x)*y)
