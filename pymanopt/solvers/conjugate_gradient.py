@@ -199,6 +199,8 @@ class ConjugateGradient(Solver):
                         "Unknown beta_type %s. Should be one of %s." % (
                             self._beta_type, types))
 
+                if type(beta) != float:
+                    beta = float(beta)
                 desc_dir = -Pnewgrad + beta * desc_dir
 
             # Update the necessary variables for the next iteration.
