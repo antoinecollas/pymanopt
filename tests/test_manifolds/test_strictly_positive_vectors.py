@@ -90,4 +90,11 @@ class TestStrictlyPositiveVectors(TestCase):
         xretru = self.man.retr(x, u)
         np_testing.assert_allclose(xretru, x + u)
 
-        # def test_transp(self):
+    def test_transp(self):
+        # check that vector remains in tangent space
+        m = self.man
+        x = m.rand()
+        y = m.rand()
+        u = m.randvec(x)
+        t_u = m.transp(x, y, u)
+        np_testing.assert_allclose(t_u, m.proj(y, t_u))
