@@ -75,6 +75,12 @@ class HermitianPositiveDefinite(EuclideanEmbeddedSubmanifold):
     def egrad2rgrad(self, x, u):
         return multiprod(multiprod(x, multiherm(u)), x)
 
+    def ehess2rhess(self, x, egrad, ehess, u):
+        egrad = multiherm(egrad)
+        hess = multiprod(multiprod(x, multiherm(ehess)), x)
+        hess += multiherm(multiprod(multiprod(u, egrad), x))
+        return hess
+
     def exp(self, x, u):
         k = self._k
 
@@ -241,6 +247,11 @@ class SpecialHermitianPositiveDefinite(EuclideanEmbeddedSubmanifold):
         rgrad = multiprod(multiprod(x, u), x)
         rgrad = self.proj(x, rgrad)
         return rgrad
+
+    def ehess2rhess(self, x, egrad, ehess, u):
+        hess = self.HPD.ehess2rhess(x, egrad, ehess, u)
+        hess = self.proj(x, hess)
+        return hess
 
     def exp(self, x, u):
         e = self.HPD.exp(x, u)

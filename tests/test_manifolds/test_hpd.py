@@ -84,6 +84,17 @@ class TestSingleHermitianPositiveDefiniteManifold(TestCase):
         np.testing.assert_allclose(man.egrad2rgrad(x, u),
                                    multiprod(multiprod(x, multiherm(u)), x))
 
+    def test_ehess2rhess(self):
+        n = self.n
+        x = self.man.rand()
+        u = self.man.randvec(x)
+        egrad = rnd.randn(n, n)
+        ehess = rnd.randn(n, n)
+        hess = self.man.ehess2rhess(x, egrad, ehess, u)
+        hess_proj = self.man.proj(x, hess)
+
+        np_testing.assert_allclose(hess, hess_proj)
+
     def test_exp(self):
         # exp(x, u) = x + u.
         man = self.man
@@ -223,6 +234,17 @@ class TestMultiHermitianPositiveDefiniteManifold(TestCase):
         + 1j*rnd.randn(self.k, self.n, self.n)
         np.testing.assert_allclose(man.egrad2rgrad(x, u),
                                    multiprod(multiprod(x, multiherm(u)), x))
+
+    def test_ehess2rhess(self):
+        n, k = self.n, self.k
+        x = self.man.rand()
+        u = self.man.randvec(x)
+        egrad = rnd.randn(k, n, n)
+        ehess = rnd.randn(k, n, n)
+        hess = self.man.ehess2rhess(x, egrad, ehess, u)
+        hess_proj = self.man.proj(x, hess)
+
+        np_testing.assert_allclose(hess, hess_proj)
 
     def test_exp(self):
         # Test against manopt implementation, test that for small vectors
@@ -395,6 +417,17 @@ class TestSingleSpecialHermitianPositiveDefiniteManifold(TestCase):
         np_testing.assert_almost_equal(t, 0)
 
         np.testing.assert_allclose(p, man.proj(x, p))
+
+    def test_ehess2rhess(self):
+        n = self.n
+        x = self.man.rand()
+        u = self.man.randvec(x)
+        egrad = rnd.randn(n, n)
+        ehess = rnd.randn(n, n)
+        hess = self.man.ehess2rhess(x, egrad, ehess, u)
+        hess_proj = self.man.proj(x, hess)
+
+        np_testing.assert_allclose(hess, hess_proj)
 
     def test_exp(self):
         # Test against manopt implementation, test that for small vectors
@@ -577,6 +610,17 @@ class TestMultiSpecialHermitianPositiveDefiniteManifold(TestCase):
         np_testing.assert_allclose(t, 0, atol=1e-7)
 
         np.testing.assert_allclose(p, man.proj(x, p))
+
+    def test_ehess2rhess(self):
+        n, k = self.n, self.k
+        x = self.man.rand()
+        u = self.man.randvec(x)
+        egrad = rnd.randn(k, n, n)
+        ehess = rnd.randn(k, n, n)
+        hess = self.man.ehess2rhess(x, egrad, ehess, u)
+        hess_proj = self.man.proj(x, hess)
+
+        np_testing.assert_allclose(hess, hess_proj)
 
     def test_exp(self):
         # Test against manopt implementation, test that for small vectors
