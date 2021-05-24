@@ -2,7 +2,6 @@ import autograd.numpy as np
 from numpy import linalg as la, random as rnd, testing as np_testing
 
 from pymanopt.manifolds import StrictlyPositiveVectors
-# from pymanopt.tools import testing
 from .._test import TestCase
 
 
@@ -52,6 +51,13 @@ class TestStrictlyPositiveVectors(TestCase):
         assert (la.norm(g-h, axis=0) > 1e-6).all()
         np_testing.assert_almost_equal(self.man.norm(x, g), 1)
 
+    def test_zerovec(self):
+        x = self.man.rand()
+        np_testing.assert_equal(
+            self.man.zerovec(x),
+            np.zeros((self.n, self.k))
+        )
+
     def test_dist(self):
         # To implement norm of log(x, y)
         x = self.man.rand()
@@ -60,7 +66,15 @@ class TestStrictlyPositiveVectors(TestCase):
         np_testing.assert_almost_equal(self.man.norm(x, u),
                                        self.man.dist(x, y))
 
-    # def test_ehess2rhess(self):
+    def test_ehess2rhess(self):
+        x = self.man.rand()
+        u = self.man.randvec(x)
+        egrad = rnd.randn(self.n, self.k)
+        ehess = rnd.randn(self.n, self.k)
+        hess = self.man.ehess2rhess(x, egrad, ehess, u)
+        hess_proj = self.man.proj(x, hess)
+
+        np_testing.assert_allclose(hess, hess_proj)
 
     def test_exp_log_inverse(self):
         x = self.man.rand()
