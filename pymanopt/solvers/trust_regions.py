@@ -143,12 +143,15 @@ class TrustRegions(Solver):
             print("{:44s}f: {:+.6e}   |grad|: {:.6e}".format(
                 " ", float(fx), norm_grad))
 
-        self._start_optlog()
+        self._start_optlog(extraiterfields=['gradnorm'])
 
         while True:
             # *************************
             # ** Begin TR Subproblem **
             # *************************
+
+            if self._logverbosity >= 2:
+                self._append_optlog(k+1, x, fx, gradnorm=norm_grad)
 
             # Determine eta0
             if not self.use_rand:
