@@ -248,11 +248,6 @@ class SpecialHermitianPositiveDefinite(EuclideanEmbeddedSubmanifold):
         rgrad = self.proj(x, rgrad)
         return rgrad
 
-    def ehess2rhess(self, x, egrad, ehess, u):
-        hess = self.HPD.ehess2rhess(x, egrad, ehess, u)
-        hess = self.proj(x, hess)
-        return hess
-
     def exp(self, x, u):
         e = self.HPD.exp(x, u)
 

@@ -418,17 +418,6 @@ class TestSingleSpecialHermitianPositiveDefiniteManifold(TestCase):
 
         np.testing.assert_allclose(p, man.proj(x, p))
 
-    def test_ehess2rhess(self):
-        n = self.n
-        x = self.man.rand()
-        u = self.man.randvec(x)
-        egrad = rnd.randn(n, n)
-        ehess = rnd.randn(n, n)
-        hess = self.man.ehess2rhess(x, egrad, ehess, u)
-        hess_proj = self.man.proj(x, hess)
-
-        np_testing.assert_allclose(hess, hess_proj)
-
     def test_exp(self):
         # Test against manopt implementation, test that for small vectors
         # exp(x, u) = x + u.
@@ -610,17 +599,6 @@ class TestMultiSpecialHermitianPositiveDefiniteManifold(TestCase):
         np_testing.assert_allclose(t, 0, atol=1e-7)
 
         np.testing.assert_allclose(p, man.proj(x, p))
-
-    def test_ehess2rhess(self):
-        n, k = self.n, self.k
-        x = self.man.rand()
-        u = self.man.randvec(x)
-        egrad = rnd.randn(k, n, n)
-        ehess = rnd.randn(k, n, n)
-        hess = self.man.ehess2rhess(x, egrad, ehess, u)
-        hess_proj = self.man.proj(x, hess)
-
-        np_testing.assert_allclose(hess, hess_proj)
 
     def test_exp(self):
         # Test against manopt implementation, test that for small vectors
